@@ -1,0 +1,78 @@
+<html>
+<style>
+h1 { 
+	color : orange; 
+	background-color : black;
+}
+#hoop {
+	position: absolute;
+	right: 0px;
+}
+#basketball {
+	position: absolute;
+	bottom: 10px;
+}
+#score {
+    position: absolute;
+    font-size: 5em;
+    color: red;
+    right:  130px;
+    top:  120px;
+	
+}
+</style>
+
+<script>
+var score = 0;
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function dropBall(thisBall){
+	thisBall.style.bottom= "0px";
+	thisBall.style.right= Math.round(160 + Math.random()*400 - 200 ) + "px";
+	thisBall.style.position= "absolute";
+
+	document.body.appendChild(thisBall);
+	thisBall.id = "";
+
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  
+  var ballCopy = document.getElementById(data).cloneNode();
+  
+  document.getElementById("hoop").appendChild(ballCopy);
+  ballCopy.style.right=  "160px";
+  ballCopy.style.position = "äbsolute";
+  ballCopy.style.zIndex = "-1";
+  score = score + 1;
+  setTimeout( dropBall, 1000, ballCopy );
+  
+  document.getElementById("score").innerHTML = score;
+  
+}
+</script>
+
+<body>
+	<h1>Basketball</h1>
+	
+<img src="basketball.png" id = "basketball" height="140" width="140" draggable="true" ondragstart="drag(event)">
+
+<div id = "hoop" ondrop="drop(event)" ondragover="allowDrop(event)">
+<div id = "score">
+0
+</div>
+	<img src="hoop.png" height="500">
+</div>
+</body>
+
+
+
+</html>
